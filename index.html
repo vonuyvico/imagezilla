@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ImageZilla</title>
+	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			font-family: 'TW Cen MT';
+			color: white;
+			outline: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+		}
+		body {
+			background: #151519;
+			width: 100%;
+			height: 100%;
+		}
+		#view {
+			color: #ffb100;
+			background: none;
+			border: 1px solid #ffb100;
+			border-radius: 20px;
+			padding: 10px;
+			display: block;
+			width: 50%;
+			margin: auto;
+			text-align: center;
+			transition: .6s;
+		}
+		#view:hover {
+			width: 80%;
+			background: #ffb100;
+			color: black;
+			transition: .6s;
+		}
+		#title {
+			margin: 5px;
+			font-size: 40px;
+		}
+		#editBtn {
+			background: #ffb100;
+			color: black;
+			padding: 10px;
+			display: block;
+			width: 100px;
+			margin: auto;
+			border: none;
+			transition: .6s;
+		}
+		#editBtn:hover {
+			background: #151519;
+			color: #ffb100;
+		}
+		#cvs {
+			border: 1px solid #ffb100;
+			display: block;
+			margin: auto;
+		}
+		.slidecontainer {
+		  width: 100%;
+		}
+		
+		.slider {
+		  -webkit-appearance: none;
+		  width: 100%;
+		  height: 25px;
+		  background: #48484c;
+		  outline: none;
+		  opacity: 0.7;
+		  -webkit-transition: .2s;
+		  transition: opacity .2s;
+		}
+		
+		.slider:hover {
+		  opacity: 1;
+		}
+		
+		.slider::-webkit-slider-thumb {
+		  -webkit-appearance: none;
+		  appearance: none;
+		  width: 25px;
+		  height: 25px;
+		  background: #ffb100;
+		  cursor: pointer;
+		}
+		
+		.slider::-moz-range-thumb {
+		  width: 25px;
+		  height: 25px;
+		  background: #ffb100;
+		  cursor: pointer;
+		}
+		#mainCont { 
+			width: 100%;
+			height: 100%;
+		}
+		#prev {
+			width: 50%;
+			float: left;
+			margin: 0;
+			display: inline-block;
+			height: 100%;
+		}
+		#vary {
+			width: calc(100% - 50%);
+			display: inline-block;
+			margin: 0;
+			float: left;
+			height: 100%;
+		}
+		@media only screen and (max-width: 750px) {
+			#prev {
+				width: 100%;
+			}
+			#vary {
+				width: 100%;
+			}
+		}
+		.headButton {
+			width: 50%;
+    		float: left;
+    		padding: 5px;
+    		box-sizing: border-box;
+    		font-size: 20px;
+    		margin: 0;
+    		display: inline-block;
+    		background: #4e4a46;
+    		border: 1px solid #151519;
+    		border-radius: 20px 20px 0px 0px;
+    		transition: .6s;
+		}
+		.activeBtn {
+			background: #ffb100;
+			color: black;
+			transition: .6s;
+		}
+		#buttonWrapper {
+			width: 100%;
+		}
+		#basic {
+			background: #2b2828;
+			box-sizing: border-box;
+			padding: 4px;
+			border-radius: 15px;
+		}
+		#inithead {
+			margin-top: 30px;
+		}
+		#itB {
+        	padding: 10px;
+        	background: #2f2f2f;
+        	border: none;
+        	border-radius: 10px;
+        	margin: 10px;
+        	font-size: 20px;
+        }
+        #footer {
+        	position: fixed;
+        	background: #252525;
+        	padding: 5px;
+        	border: none;
+        	border-radius: 0px 10px 0px 0px;
+        	bottom: 0px;
+        	left: 0px;
+        }
+        #quote {
+        	display: block;
+        }
+	</style>
+</head>
+<body>
+<center>
+<h1 id='title'>ImageZilla</h1>
+<i id='quote'>Simplicity at its finest.</i><br>
+</center>
+<div id='mainCont'>
+	<div id='prev'>
+		<label id='view'>Upload File
+			<input type='file' style='display: none;' onchange="init()">
+		</label><br>
+		<canvas id='cvs' style='display: none'></canvas><br>
+	</div>
+	<div id='vary'>
+		<div id='buttonWrapper'>
+			<button class='headButton activeBtn' id='basic_btn' onclick='goBasic()'>Basic</button>
+			<button class='headButton' id='advanced_btn' onclick='goAdvanced()'>Advanced</button>
+		</div><br>
+		<div id='basic' style='display: block'>
+			<center><div class="slidecontainer">
+				<h3 id='inithead'>Blur</h3>
+				<input type="range" min="0" max="15" value="0" class="slider" id="myRange1">
+			</div></center><br>
+			<!--BRIGHTNESS-->
+			<center><div class="slidecontainer">
+				<h3>Brightness</h3>
+				<input type="range" min="100" max="200" value="100" class="slider" id="myRange2">
+			</div></center><br>
+			<!--CONTRAST-->
+			<center><div class="slidecontainer">
+				<h3>Contrast</h3>
+				<input type="range" min="100" max="200" value="100" class="slider" id="myRange3">
+			</div></center><br>
+			<!--GRAYSCALE-->
+			<center><div class="slidecontainer">
+				<h3>Grayscale</h3>
+				<input type="range" min="0" max="100" value="0" class="slider" id="myRange4">
+			</div></center><br>
+			<!--HUE ROTATE-->
+			<center><div class="slidecontainer">
+				<h3>Hue Rotate (deg)</h3>
+				<input type="range" min="0" max="360" value="0" class="slider" id="myRange5">
+			</div></center><br>
+			<!--INVERT-->
+			<center><div class="slidecontainer">
+				<h3>Invert</h3>
+				<input type="range" min="0" max="100" value="0" class="slider" id="myRange6">
+			</div></center><br>
+			<!--SATURATE-->
+			<center><div class="slidecontainer">
+				<h3>Saturation</h3>
+				<input type="range" min="100" max="200" value="100" class="slider" id="myRange7">
+			</div></center><br>
+			<!--SEPIA-->
+			<center><div class="slidecontainer">
+				<h3>Sepia</h3>
+				<input type="range" min="0" max="100" value="0" class="slider" id="myRange8">
+			</div></center><br>
+		</div>
+		<div id='advanced' style='display: none;'>
+			<h1 id='itB'>Advanced features are coming soon!</h1>
+		</div>
+	</div>
+</div>
+<div id='footer'>Copyright &copy; Von Uyvico 2020</div>
+<manyBR></manyBR>
+<script type="text/javascript">
+var customTag = document.getElementsByTagName('manyBR');
+for(i = 0; i < customTag.length; i++){
+	customTag[i].outerHTML = '<br><br><br><br><br><br><br>';
+}
+function lp(el){
+	return document.querySelector(el);
+}
+function init(){
+	var file = lp("input[type='file']").files[0];
+	var reader = new FileReader();
+
+	reader.addEventListener('load', function(){
+		window.url = reader.result;
+		init2();
+	}, false);
+
+	if(file){
+		reader.readAsDataURL(file);
+	}
+}
+
+function init2(){
+	var it = document.getElementsByClassName('slider');
+	var cvs = lp("#cvs");
+	lp("#cvs").style.display = 'block';
+	var ctx = cvs.getContext('2d');
+	console.log(0);
+	//effect values
+	var blurAmount = 0;
+	var brightnessAmount = 100;
+	var contrastAmount = 100;
+	var grayscaleAmount = 0;
+	var hueRotateDeg = 0;
+	var invertAmount = 0;
+	var saturationAmount = 100;
+	var sepiaAmount = 0;
+	function draw(){
+		window.bg = new Image();
+		window.bg.src = window.url;
+
+		var imageAspectRatio = window.bg.width/window.bg.height;
+		var parentWidth = document.getElementById('prev').offsetWidth,
+		parentHeight = document.getElementById('prev').offsetHeight;
+		lp("#cvs").width = (parentWidth*0.8);
+		lp("#cvs").height = (parentWidth*0.8)/imageAspectRatio;
+		ctx.filter = 'blur(' + blurAmount + 'px) grayscale(' + grayscaleAmount/100 + ') contrast(' + contrastAmount/100 + ') brightness(' + brightnessAmount/100 + ') hue-rotate(' + hueRotateDeg + 'deg) invert(' + invertAmount + ') saturate(' + saturationAmount/100 + ') sepia(' + sepiaAmount/100 + ')';
+
+		ctx.drawImage(window.bg, 0, 0, cvs.width, cvs.height);
+		requestAnimationFrame(draw);
+	}
+	draw();
+	// effects
+	/* blur */
+	for(let x = 0; x<it.length;x++){
+		window['slider' + (x+1).toString()] = document.getElementById("myRange" + (x+1));
+	}
+
+	window['slider1'].oninput = function() {
+		blurAmount = this.value;
+	}
+	window.slider2.oninput = function() {
+		brightnessAmount = this.value;
+	}
+	window.slider3.oninput = function() {
+		contrastAmount = this.value;
+	}
+	window.slider4.oninput = function() {
+		grayscaleAmount = this.value;
+	}
+	window.slider5.oninput = function() {
+		hueRotateDeg = this.value;
+	}
+	window.slider6.oninput = function(){
+		invertAmount = this.value;
+	}
+	window.slider7.oninput = function(){
+		saturationAmount = this.value;
+	}
+	window.slider8.oninput = function(){
+		sepiaAmount = this.value;
+	}
+
+}
+function goAdvanced(){
+	var el = lp("#basic_btn").classList.remove("activeBtn");
+	var el2 = lp("#advanced_btn").classList.add("activeBtn");
+	lp("#basic").style.display = 'none';
+	lp("#advanced").style.display = 'block';
+	setTimeout('alert("Coming soon!")', 200);
+}
+function goBasic(){
+	var el = lp("#advanced_btn").classList.remove("activeBtn");
+	var el2 = lp("#basic_btn").classList.add("activeBtn");
+	lp("#advanced").style.display = 'none';
+	lp("#basic").style.display = 'block';
+}
+</script>
+
+</body>
+</html>
